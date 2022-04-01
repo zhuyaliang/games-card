@@ -1,13 +1,19 @@
 #include "games-window.h"
 #include "games-utils.h"
 
+typedef enum {
+    CARD_ACTION_INIT,
+    CARD_ACTION_SHOW,
+    CARD_ACTION_DISCARD,
+} CardActionMode;
+
 struct _GamesWindowPrivate 
 {
     GtkBuilder *builder;
     GtkWidget  *hand_image[3];
     GtkWidget  *other_image;
    
-    gboolean    is_back;
+    CardActionMode card_mode;
     gint        size;
 };
 
@@ -47,14 +53,20 @@ static GPtrArray *games_window_get_hand_list (GamesWindow *gw)
 
     hand_list = g_ptr_array_new ();
     
-    if (gw->priv->is_back)
+    if (gw->priv->card_mode == CARD_ACTION_INIT)
         for (int i = 0; i < 3; i++)
             g_ptr_array_add (hand_list, CLASSIC"/bb.png");
-    else
+    else if (gw->priv->card_mode == CARD_ACTION_SHOW)
     {
         g_ptr_array_add (hand_list, CLASSIC"/Ac.png");
         g_ptr_array_add (hand_list, CLASSIC"/As.png");
         g_ptr_array_add (hand_list, CLASSIC"/Ad.png");
+    }
+    else
+    {
+        g_ptr_array_add (hand_list, CLASSIC"/bb-d.png");
+        g_ptr_array_add (hand_list, CLASSIC"/bb-d.png");
+        g_ptr_array_add (hand_list, CLASSIC"/bb-d.png");
     }
 
     return hand_list;
@@ -84,7 +96,21 @@ on_show_card (GtkWidget *widget, gpointer data)
     GamesWindow *gameswin;
 
     gameswin = GAMES_WINDOW (data);
-    gameswin->priv->is_back = FALSE;
+    gtk_widget_set_sensitive (widget, FALSE);
+    gameswin->priv->card_mode = CARD_ACTION_SHOW;
+
+    games_window_set_hand_image (gameswin);
+
+}
+
+static void
+on_discard_hand (GtkWidget *widget, gpointer data)
+{
+    GamesWindow *gameswin;
+
+    gameswin = GAMES_WINDOW (data);
+    gtk_widget_set_sensitive (widget, FALSE);
+    gameswin->priv->card_mode = CARD_ACTION_DISCARD;
 
     games_window_set_hand_image (gameswin);
 
@@ -97,33 +123,33 @@ static void create_opponent_area (GtkWidget *box)
     GdkPixbuf *pb2;
     GdkPixbuf *pb1;
     GtkWidget *image;
-    
+
     table = gtk_grid_new ();
     gtk_widget_show (table);
     gtk_box_pack_end (GTK_BOX (box), table, TRUE, FALSE, 6);
     gtk_grid_set_column_homogeneous (GTK_GRID (table), TRUE);
-    
+
     label = gtk_label_new (NULL);
     gtk_widget_show (label);
     gtk_grid_attach (GTK_GRID (table), label, 0, 0, 13, 2);
 
-    pb1 = gdk_pixbuf_new_from_file(CLASSIC"/bbb.png", NULL);
+    pb1 = gdk_pixbuf_new_from_file(CLASSIC"/bbb-d.png", NULL);
     pb2 = gdk_pixbuf_scale_simple (pb1, 70, 82, GDK_INTERP_BILINEAR);
     image = gtk_image_new_from_pixbuf(pb2);
     gtk_grid_attach (GTK_GRID (table), image, 6, 3, 1, 1);
-    
+
     image = gtk_image_new_from_pixbuf(pb2);
     gtk_grid_attach (GTK_GRID (table), image, 9, 5, 1, 1);
-    
+
     image = gtk_image_new_from_pixbuf(pb2);
     gtk_grid_attach (GTK_GRID (table), image, 3, 5, 1, 1);
-    
+
     image = gtk_image_new_from_pixbuf(pb2);
     gtk_grid_attach (GTK_GRID (table), image, 1, 7, 1, 1);
-    
+
     image = gtk_image_new_from_pixbuf(pb2);
     gtk_grid_attach (GTK_GRID (table), image, 11, 7, 1, 1);
-    
+
 }
 
 void
@@ -157,7 +183,7 @@ static GtkWidget *create_jeton_menu_button (GamesWindow *gameswin,
     gtk_widget_insert_action_group (GTK_WIDGET(gameswin), "win", G_ACTION_GROUP (action_group));
     popover = (GtkWidget *)gtk_builder_get_object (gameswin->priv->builder, object_id);
     gtk_menu_button_set_popover (GTK_MENU_BUTTON (menu_button), popover);
-    
+
     return menu_button;
 }
 
@@ -200,17 +226,17 @@ games_window_fill (GamesWindow *gameswin)
     gtk_widget_show (table);
     gtk_box_pack_end (GTK_BOX (vbox), table, TRUE, FALSE, 6);
     gtk_grid_set_column_homogeneous (GTK_GRID (table), TRUE);
-    
+
     label = gtk_label_new (NULL);
     gtk_widget_show (label);
     gtk_grid_attach (GTK_GRID (table), label, 0, 0, 12, 2);
     gtk_grid_attach (GTK_GRID (table), gameswin->priv->hand_image[0], 6, 3, 1, 1);
     gtk_grid_attach (GTK_GRID (table), gameswin->priv->hand_image[1], 5, 3, 2, 1);
     gtk_grid_attach (GTK_GRID (table), gameswin->priv->hand_image[2], 4, 3, 3, 1);
-    
+
     chips_hbox = create_box_widget (GTK_ORIENTATION_HORIZONTAL, 18);
     gtk_grid_attach (GTK_GRID (table), chips_hbox, 4, 4, 3, 1);
-    
+
     button = gtk_button_new_with_label (_("show card"));
     gtk_widget_set_opacity (button, 0.75);
     gtk_box_pack_start (GTK_BOX (chips_hbox), button, TRUE, TRUE, 6);
@@ -218,21 +244,25 @@ games_window_fill (GamesWindow *gameswin)
                      "clicked",
                       G_CALLBACK (on_show_card),
                       gameswin);
-    
+
     button = gtk_button_new_with_label ("跟注");
     gtk_widget_set_opacity (button, 0.75);
     gtk_box_pack_start (GTK_BOX (chips_hbox), button, TRUE, TRUE, 6);
-    
+
     button = create_jeton_menu_button (gameswin, "popover-jeton");
     gtk_box_pack_start (GTK_BOX (chips_hbox), button, TRUE, TRUE, 6);
 
     button = gtk_button_new_with_label ("开牌");
     gtk_widget_set_opacity (button, 0.75);
     gtk_box_pack_start (GTK_BOX (chips_hbox), button, TRUE, TRUE, 6);
-    
+
     button = gtk_button_new_with_label ("弃牌");
     gtk_widget_set_opacity (button, 0.75);
     gtk_box_pack_start (GTK_BOX (chips_hbox), button, TRUE, TRUE, 6);
+    g_signal_connect (button,
+                     "clicked",
+                      G_CALLBACK (on_discard_hand),
+                      gameswin);
 
     gtk_widget_show_all (box);
 }
@@ -257,8 +287,8 @@ games_window_constructor (GType                  type,
 
 static void gameswin_init_hand (GamesWindow *gw)
 {
-    gw->priv->is_back = TRUE;
-    
+    gw->priv->card_mode = CARD_ACTION_INIT;
+
     for (int i = 0; i < 3; i++)
     {
         gw->priv->hand_image[i] = gtk_image_new ();
@@ -293,15 +323,15 @@ games_window_init (GamesWindow *gameswin)
     GdkRectangle rect;
 
     gameswin->priv = games_window_get_instance_private (gameswin);
-    
+
     display = gdk_display_get_default ();
     monitor = gdk_display_get_primary_monitor (display);
     gdk_monitor_get_geometry (monitor, &rect);
-    
+
     window = GTK_WINDOW (gameswin);
     gtk_window_set_resizable (window, FALSE);
     gtk_window_maximize (GTK_WINDOW (window));
-    
+
     gameswin->priv->size = rect.width;
     gameswin_init_hand (gameswin);
     gameswin->priv->builder = gtk_builder_new_from_resource ("/org/games/card/jeton-menus-function-manager.ui");

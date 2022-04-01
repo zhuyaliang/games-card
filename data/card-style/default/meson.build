@@ -52,7 +52,8 @@ cards = [
    ['Th.png'],
    ['Ts.png'],
    ['bb.png'],
-   ['bbb.png'],
+   ['bb-d.png'],
+   ['bbb-d.png'],
    ['blank.png'],
 ]
 foreach card: cards

@@ -19,4 +19,4 @@ msgstr ""
 
 #: src/games-window.c:200
 msgid "show card"
-msgstr "¿¿"
+msgstr ""
