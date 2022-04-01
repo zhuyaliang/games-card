@@ -1,5 +1,6 @@
 tables = [
    ['dealer_button.png'],
+   ['jeton_table.png'],
    ['table.png'],
    ['jeton_200.png'],
    ['jeton_100.png'],

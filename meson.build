@@ -85,6 +85,7 @@ conf.set_quoted('SYSCONFDIR', join_paths(get_option('prefix'), get_option('sysco
 conf.set_quoted('LOCALSTATEDIR', join_paths(get_option('prefix'), get_option('localstatedir')))
 conf.set_quoted('LIBEXECDIR', join_paths(get_option('prefix'), get_option('libexecdir')))
 conf.set_quoted('CLASSIC', join_paths(get_option('prefix'), get_option('datadir'), meson.project_name(), 'card-style', 'classic'))
+conf.set_quoted('TABLE', join_paths(get_option('prefix'), get_option('datadir'), meson.project_name(), 'table'))
 
 configure_file(
   output : 'config.h',

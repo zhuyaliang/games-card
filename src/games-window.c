@@ -84,7 +84,6 @@ static void games_window_set_hand_image (GamesWindow *gw)
     {
         image_path  = g_ptr_array_index (hand_list, i);
         pb1 = gdk_pixbuf_new_from_file (image_path, NULL);
-        g_print ("image_path = %s\r\n",image_path);
         pb2 = gdk_pixbuf_scale_simple (pb1, 100, 145, GDK_INTERP_BILINEAR);
         gtk_image_set_from_pixbuf (GTK_IMAGE (gw->priv->hand_image[i]), pb2);
     }
@@ -131,7 +130,7 @@ static void create_opponent_area (GtkWidget *box)
 
     label = gtk_label_new (NULL);
     gtk_widget_show (label);
-    gtk_grid_attach (GTK_GRID (table), label, 0, 0, 13, 2);
+    gtk_grid_attach (GTK_GRID (table), label, 0, 0, 12, 1);
 
     pb1 = gdk_pixbuf_new_from_file(CLASSIC"/bbb-d.png", NULL);
     pb2 = gdk_pixbuf_scale_simple (pb1, 70, 82, GDK_INTERP_BILINEAR);
@@ -139,17 +138,44 @@ static void create_opponent_area (GtkWidget *box)
     gtk_grid_attach (GTK_GRID (table), image, 6, 3, 1, 1);
 
     image = gtk_image_new_from_pixbuf(pb2);
-    gtk_grid_attach (GTK_GRID (table), image, 9, 5, 1, 1);
+    gtk_grid_attach (GTK_GRID (table), image, 9, 4, 1, 1);
 
     image = gtk_image_new_from_pixbuf(pb2);
-    gtk_grid_attach (GTK_GRID (table), image, 3, 5, 1, 1);
+    gtk_grid_attach (GTK_GRID (table), image, 3, 4, 1, 1);
 
+}
+
+static void create_table_center_area (GtkWidget *box)
+{
+    GtkWidget *table;
+    GtkWidget *label;
+    GdkPixbuf *pb2;
+    GdkPixbuf *pb1;
+    GtkWidget *image;
+    char *label_text;
+
+    table = gtk_grid_new ();
+    gtk_widget_show (table);
+    gtk_box_pack_end (GTK_BOX (box), table, TRUE, FALSE, 6);
+    gtk_grid_set_column_homogeneous (GTK_GRID (table), TRUE);
+
+    label = gtk_label_new (NULL);
+    gtk_widget_show (label);
+    gtk_grid_attach (GTK_GRID (table), label, 0, 0, 10, 1);
+
+    pb1 = gdk_pixbuf_new_from_file(TABLE"/jeton_table.png", NULL);
+    pb2 = gdk_pixbuf_scale_simple (pb1, 160, 160, GDK_INTERP_BILINEAR);
     image = gtk_image_new_from_pixbuf(pb2);
-    gtk_grid_attach (GTK_GRID (table), image, 1, 7, 1, 1);
+    gtk_grid_attach (GTK_GRID (table), image, 5, 1, 1, 1);
 
-    image = gtk_image_new_from_pixbuf(pb2);
-    gtk_grid_attach (GTK_GRID (table), image, 11, 7, 1, 1);
+    label = gtk_label_new (NULL);
+    label_text = g_strdup_printf("<span foreground=\'red\'weight=\'light\'font_desc=\'14'><b>Round %d Total Jeton %d</b></span>",
+                                15,100);
 
+    gtk_label_set_markup (GTK_LABEL(label), label_text);
+    gtk_grid_attach (GTK_GRID (table), label, 4, 3, 3, 1);
+
+    g_free (label_text);
 }
 
 void
@@ -212,14 +238,15 @@ games_window_fill (GamesWindow *gameswin)
     gtk_container_set_border_width (GTK_CONTAINER (box), 0);
     gtk_container_add (GTK_CONTAINER (frame), box);
 
-    hbox = create_box_widget (GTK_ORIENTATION_VERTICAL, 100);
+    hbox = create_box_widget (GTK_ORIENTATION_VERTICAL, 12);
     gtk_box_pack_start (GTK_BOX (box), hbox, TRUE, TRUE, 0);
     create_opponent_area (hbox);
 
-    hbox = create_box_widget (GTK_ORIENTATION_VERTICAL, 100);
+    hbox = create_box_widget (GTK_ORIENTATION_VERTICAL, 12);
+    create_table_center_area (hbox);
     gtk_box_pack_start (GTK_BOX (box), hbox, TRUE, TRUE, 0);
 
-    vbox = create_box_widget (GTK_ORIENTATION_VERTICAL, 18);
+    vbox = create_box_widget (GTK_ORIENTATION_VERTICAL, 12);
     gtk_box_pack_end (GTK_BOX (box), vbox, TRUE, TRUE, 0);
 
     table = gtk_grid_new ();
