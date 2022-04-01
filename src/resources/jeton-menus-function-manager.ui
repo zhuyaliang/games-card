@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<interface>
+  <object class="GtkPopoverMenu" id="popover-jeton">
+    <child>
+      <object class="GtkBox">
+        <property name="visible">True</property>
+        <property name="orientation">horizontal</property>
+        <property name="margin">10</property>
+        <child>
+          <object class="GtkImage" id="jeton_5">
+            <property name="visible">True</property>
+            <property name="valign">center</property>
+            <property name="pixbuf">/tmp/jeton_5.png</property>
+          </object>
+           <object class="GtkModelButton">
+            <property name="visible">True</property>
+            <property name="valign">center</property>
+            <property name="image">jeton_5</property>
+            <property name="action-name">win.system-user-info</property>
+           </object>
+        </child>
+        <child>
+          <object class="GtkImage" id="jeton_10">
+            <property name="visible">True</property>
+            <property name="valign">center</property>
+            <property name="pixbuf">/tmp/jeton_10.png</property>
+          </object>
+           <object class="GtkModelButton">
+            <property name="visible">True</property>
+            <property name="valign">center</property>
+            <property name="image">jeton_10</property>
+            <property name="action-name">win.system-user-info</property>
+           </object>
+        </child>
+        <child>
+          <object class="GtkImage" id="jeton_20">
+            <property name="visible">True</property>
+            <property name="valign">center</property>
+            <property name="pixbuf">/tmp/jeton_20.png</property>
+          </object>
+           <object class="GtkModelButton">
+            <property name="visible">True</property>
+            <property name="valign">center</property>
+            <property name="image">jeton_20</property>
+            <property name="action-name">win.system-user-info</property>
+           </object>
+        </child>
+        <child>
+          <object class="GtkImage" id="jeton_50">
+            <property name="visible">True</property>
+            <property name="valign">center</property>
+            <property name="pixbuf">/tmp/jeton_50.png</property>
+          </object>
+           <object class="GtkModelButton">
+            <property name="visible">True</property>
+            <property name="valign">center</property>
+            <property name="image">jeton_50</property>
+            <property name="action-name">win.system-user-info</property>
+           </object>
+        </child>
+        <child>
+          <object class="GtkImage" id="jeton_100">
+            <property name="visible">True</property>
+            <property name="valign">center</property>
+            <property name="pixbuf">/tmp/jeton_100.png</property>
+          </object>
+           <object class="GtkModelButton">
+            <property name="visible">True</property>
+            <property name="valign">center</property>
+            <property name="image">jeton_100</property>
+            <property name="action-name">win.system-user-info</property>
+           </object>
+        </child>
+        <child>
+          <object class="GtkImage" id="jeton_200">
+            <property name="visible">True</property>
+            <property name="valign">center</property>
+            <property name="pixbuf">/tmp/jeton_200.png</property>
+          </object>
+           <object class="GtkModelButton">
+            <property name="visible">True</property>
+            <property name="valign">center</property>
+            <property name="image">jeton_200</property>
+            <property name="action-name">win.system-user-info</property>
+           </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Games Card
+Name[zh_CN]=纸牌游戏
+Comment=Card Games 
+Comment[zh_CN]=多人联网的纸牌游戏
+Categories=GTK;Games;System;Utility;
+Keywords=Configuration;Utility;
+Exec=games-card
+Icon=games-card
+Terminal=false
+Type=Application
