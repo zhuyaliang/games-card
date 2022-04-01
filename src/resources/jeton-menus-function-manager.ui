@@ -10,7 +10,7 @@
           <object class="GtkImage" id="jeton_5">
             <property name="visible">True</property>
             <property name="valign">center</property>
-            <property name="pixbuf">/tmp/jeton_5.png</property>
+            <property name="pixbuf">/usr/share/games-card/table/jeton_5.png</property>
           </object>
            <object class="GtkModelButton">
             <property name="visible">True</property>
@@ -23,7 +23,7 @@
           <object class="GtkImage" id="jeton_10">
             <property name="visible">True</property>
             <property name="valign">center</property>
-            <property name="pixbuf">/tmp/jeton_10.png</property>
+            <property name="pixbuf">/usr/share/games-card/table/jeton_10.png</property>
           </object>
            <object class="GtkModelButton">
             <property name="visible">True</property>
@@ -36,7 +36,7 @@
           <object class="GtkImage" id="jeton_20">
             <property name="visible">True</property>
             <property name="valign">center</property>
-            <property name="pixbuf">/tmp/jeton_20.png</property>
+            <property name="pixbuf">/usr/share/games-card/table/jeton_20.png</property>
           </object>
            <object class="GtkModelButton">
             <property name="visible">True</property>
@@ -49,7 +49,7 @@
           <object class="GtkImage" id="jeton_50">
             <property name="visible">True</property>
             <property name="valign">center</property>
-            <property name="pixbuf">/tmp/jeton_50.png</property>
+            <property name="pixbuf">/usr/share/games-card/table/jeton_50.png</property>
           </object>
            <object class="GtkModelButton">
             <property name="visible">True</property>
@@ -62,7 +62,7 @@
           <object class="GtkImage" id="jeton_100">
             <property name="visible">True</property>
             <property name="valign">center</property>
-            <property name="pixbuf">/tmp/jeton_100.png</property>
+            <property name="pixbuf">/usr/share/games-card/table/jeton_100.png</property>
           </object>
            <object class="GtkModelButton">
             <property name="visible">True</property>
@@ -75,7 +75,7 @@
           <object class="GtkImage" id="jeton_200">
             <property name="visible">True</property>
             <property name="valign">center</property>
-            <property name="pixbuf">/tmp/jeton_200.png</property>
+            <property name="pixbuf">/usr/share/games-card/table/jeton_200.png</property>
           </object>
            <object class="GtkModelButton">
             <property name="visible">True</property>

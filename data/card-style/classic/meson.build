@@ -51,6 +51,7 @@ cards = [
    ['Td.png'],
    ['Th.png'],
    ['Ts.png'],
+   ['bb.png'],
    ['bb-d.png'],
    ['bbb.png'],
    ['bbb-d.png'],

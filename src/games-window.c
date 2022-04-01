@@ -14,12 +14,13 @@ struct _GamesWindowPrivate
     GtkWidget  *other_image;
    
     CardActionMode card_mode;
-    gint        size;
+    gint        width_size;
+    gint        height_size;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (GamesWindow, games_window, GTK_TYPE_WINDOW)
 
-static void set_window_background (GtkWidget *window, gint size)
+static void set_window_background (GtkWidget *window, gint height_size, gint width_size)
 {
     GtkCssProvider  *provider;
     GtkStyleContext *context;
@@ -27,7 +28,7 @@ static void set_window_background (GtkWidget *window, gint size)
 
     provider = gtk_css_provider_new ();
     context = gtk_widget_get_style_context (window);
-    css = g_strdup_printf ("window {background-image: url('file:///usr/share/games-card/table/table.png');background-size:  %dpx}", size-6);
+    css = g_strdup_printf ("window {background-image: url('file:///usr/share/games-card/table/table.png');background-size: %dpx %dpx}", width_size - 6, height_size - 24);
     gtk_css_provider_load_from_data (provider, css, -1, NULL);
     gtk_style_context_add_provider (context,
                                     GTK_STYLE_PROVIDER (provider),
@@ -225,7 +226,7 @@ games_window_fill (GamesWindow *gameswin)
     GtkWidget *label;
     GtkWidget *button;
 
-    set_window_background (GTK_WIDGET (gameswin), gameswin->priv->size);
+    set_window_background (GTK_WIDGET (gameswin), gameswin->priv->height_size, gameswin->priv->width_size);
     games_window_set_hand_image (gameswin);
 
     frame = gtk_frame_new (NULL);
@@ -359,7 +360,8 @@ games_window_init (GamesWindow *gameswin)
     gtk_window_set_resizable (window, FALSE);
     gtk_window_maximize (GTK_WINDOW (window));
 
-    gameswin->priv->size = rect.width;
+    gameswin->priv->width_size = rect.width;
+    gameswin->priv->height_size = rect.height;
     gameswin_init_hand (gameswin);
     gameswin->priv->builder = gtk_builder_new_from_resource ("/org/games/card/jeton-menus-function-manager.ui");
 
