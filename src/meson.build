@@ -14,6 +14,7 @@ resources = gnome.compile_resources(
 sources = [
 'main.c',
 'games-utils.c',
+'games-player.c',
 'games-window.c',
  resources,
 ]

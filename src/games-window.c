@@ -1,4 +1,5 @@
 #include "games-window.h"
+#include "games-player.h"
 #include "games-utils.h"
 
 typedef enum {
@@ -12,6 +13,7 @@ struct _GamesWindowPrivate
     GtkBuilder *builder;
     GtkWidget  *hand_image[3];
     GtkWidget  *other_image;
+    GtkWidget  *button_discard;;
    
     CardActionMode card_mode;
     gint        width_size;
@@ -120,28 +122,22 @@ static void create_opponent_area (GtkWidget *box)
 {
     GtkWidget *table;
     GtkWidget *label;
-    GdkPixbuf *pb2;
-    GdkPixbuf *pb1;
     GtkWidget *image;
 
     table = gtk_grid_new ();
-    gtk_widget_show (table);
     gtk_box_pack_end (GTK_BOX (box), table, TRUE, FALSE, 6);
     gtk_grid_set_column_homogeneous (GTK_GRID (table), TRUE);
 
     label = gtk_label_new (NULL);
-    gtk_widget_show (label);
     gtk_grid_attach (GTK_GRID (table), label, 0, 0, 12, 1);
 
-    pb1 = gdk_pixbuf_new_from_file(CLASSIC"/bbb-d.png", NULL);
-    pb2 = gdk_pixbuf_scale_simple (pb1, 70, 82, GDK_INTERP_BILINEAR);
-    image = gtk_image_new_from_pixbuf(pb2);
+    image = games_player_new ();
     gtk_grid_attach (GTK_GRID (table), image, 6, 3, 1, 1);
 
-    image = gtk_image_new_from_pixbuf(pb2);
+    image = games_player_new ();
     gtk_grid_attach (GTK_GRID (table), image, 9, 4, 1, 1);
 
-    image = gtk_image_new_from_pixbuf(pb2);
+    image = games_player_new ();
     gtk_grid_attach (GTK_GRID (table), image, 3, 4, 1, 1);
 
 }
@@ -284,10 +280,10 @@ games_window_fill (GamesWindow *gameswin)
     gtk_widget_set_opacity (button, 0.75);
     gtk_box_pack_start (GTK_BOX (chips_hbox), button, TRUE, TRUE, 6);
 
-    button = gtk_button_new_with_label ("弃牌");
-    gtk_widget_set_opacity (button, 0.75);
-    gtk_box_pack_start (GTK_BOX (chips_hbox), button, TRUE, TRUE, 6);
-    g_signal_connect (button,
+    gameswin->priv->button_discard = gtk_button_new_with_label (_("discard"));
+    gtk_widget_set_opacity (gameswin->priv->button_discard, 0.75);
+    gtk_box_pack_start (GTK_BOX (chips_hbox), gameswin->priv->button_discard, TRUE, TRUE, 6);
+    g_signal_connect (gameswin->priv->button_discard,
                      "clicked",
                       G_CALLBACK (on_discard_hand),
                       gameswin);
