@@ -8,15 +8,37 @@ msgid ""
 msgstr ""
 "Project-Id-Version: games-card\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-01 14:38+0800\n"
+"POT-Creation-Date: 2022-04-02 21:44+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/games-window.c:200
+#: src/games-window.c:264
 msgid "show card"
+msgstr ""
+
+#: src/games-window.c:283
+msgid "discard"
+msgstr ""
+
+#: src/games-player.c:31
+msgid "Show card"
+msgstr ""
+
+#: src/games-player.c:34
+msgid "5000"
+msgstr ""
+
+#: src/games-player.c:43
+msgid ""
+"Player A\r\n"
+"jeton: 5000"
+msgstr ""
+
+#: src/games-player.c:47
+msgid "yijing jia zhu"
 msgstr ""

@@ -11,10 +11,9 @@ struct _GamesPlayerPrivate
 {
     GtkWidget  *label_info;
     GtkWidget  *label_action;
-    GtkWidget  *label_jeton;
     GtkWidget  *image_face;
     GtkWidget  *label_message;
-    
+
     CardActionMode card_mode;
 };
 
@@ -28,20 +27,18 @@ games_player_fill (GamesPlayer *gp)
 
     gtk_orientable_set_orientation (GTK_ORIENTABLE (gp), GTK_ORIENTATION_VERTICAL);
 
-    gp->priv->label_info = gtk_label_new (_("Player A"));
-    gtk_box_pack_start (GTK_BOX (gp), gp->priv->label_info, TRUE, TRUE, 6);
-
     gp->priv->label_action = gtk_label_new (_("Show card"));
     gtk_box_pack_start (GTK_BOX (gp), gp->priv->label_action, TRUE, TRUE, 6);
-
-    gp->priv->label_jeton = gtk_label_new (_("5000"));
-    gtk_box_pack_start (GTK_BOX (gp), gp->priv->label_jeton, TRUE, TRUE, 6);
 
     gp->priv->image_face = gtk_image_new ();
     gtk_box_pack_start (GTK_BOX (gp), gp->priv->image_face, TRUE, TRUE, 6);
     pb1 = gdk_pixbuf_new_from_file ("/tmp/cat.jpg", NULL);
-    pb2 = gdk_pixbuf_scale_simple (pb1, 60, 80, GDK_INTERP_BILINEAR);
+    pb2 = gdk_pixbuf_scale_simple (pb1, 70, 80, GDK_INTERP_BILINEAR);
     gtk_image_set_from_pixbuf (GTK_IMAGE (gp->priv->image_face), pb2);
+
+    gp->priv->label_info = gtk_label_new (_("Player A\r\njeton: 5000"));
+    gtk_box_pack_start (GTK_BOX (gp), gp->priv->label_info, TRUE, TRUE, 6);
+
 
     gp->priv->label_message = gtk_label_new (_("yijing jia zhu"));
 }

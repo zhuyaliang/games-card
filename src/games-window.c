@@ -129,7 +129,7 @@ static void create_opponent_area (GtkWidget *box)
     gtk_grid_set_column_homogeneous (GTK_GRID (table), TRUE);
 
     label = gtk_label_new (NULL);
-    gtk_grid_attach (GTK_GRID (table), label, 0, 0, 12, 1);
+    gtk_grid_attach (GTK_GRID (table), label, 0, 0, 13, 1);
 
     image = games_player_new ();
     gtk_grid_attach (GTK_GRID (table), image, 6, 3, 1, 1);
