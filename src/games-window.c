@@ -14,7 +14,7 @@ struct _GamesWindowPrivate
     GtkWidget  *hand_image[3];
     GtkWidget  *other_image;
     GtkWidget  *button_discard;;
-   
+    GtkWidget  *popover;   
     CardActionMode card_mode;
     gint        width_size;
     gint        height_size;
@@ -152,25 +152,24 @@ static void create_table_center_area (GtkWidget *box)
     char *label_text;
 
     table = gtk_grid_new ();
-    gtk_widget_show (table);
-    gtk_box_pack_end (GTK_BOX (box), table, TRUE, FALSE, 6);
     gtk_grid_set_column_homogeneous (GTK_GRID (table), TRUE);
+    gtk_grid_set_row_spacing (GTK_GRID (table), 18);
+    gtk_box_pack_end (GTK_BOX (box), table, TRUE, FALSE, 6);
 
     label = gtk_label_new (NULL);
-    gtk_widget_show (label);
-    gtk_grid_attach (GTK_GRID (table), label, 0, 0, 10, 1);
+    gtk_grid_attach (GTK_GRID (table), label, 0, 0, 11, 1);
 
     pb1 = gdk_pixbuf_new_from_file(TABLE"/jeton_table.png", NULL);
-    pb2 = gdk_pixbuf_scale_simple (pb1, 160, 160, GDK_INTERP_BILINEAR);
+    pb2 = gdk_pixbuf_scale_simple (pb1, 120, 155, GDK_INTERP_BILINEAR);
     image = gtk_image_new_from_pixbuf(pb2);
-    gtk_grid_attach (GTK_GRID (table), image, 5, 1, 1, 1);
+    gtk_grid_attach (GTK_GRID (table), image, 5, 1, 2, 2);
 
     label = gtk_label_new (NULL);
     label_text = g_strdup_printf("<span foreground=\'red\'weight=\'light\'font_desc=\'14'><b>Round %d Total Jeton %d</b></span>",
                                 15,100);
 
     gtk_label_set_markup (GTK_LABEL(label), label_text);
-    gtk_grid_attach (GTK_GRID (table), label, 4, 3, 3, 1);
+    gtk_grid_attach (GTK_GRID (table), label, 5, 3, 2, 2);
 
     g_free (label_text);
 }
@@ -209,6 +208,26 @@ static GtkWidget *create_jeton_menu_button (GamesWindow *gameswin,
 
     return menu_button;
 }
+static GtkWidget *set_button_tips (GtkWidget *button)
+{
+    GtkWidget *popover;
+    GtkWidget *box;
+    GtkWidget *label;
+
+    popover = gtk_popover_new (button);
+    box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 10);
+
+    label = gtk_label_new (_("nishizhuangjiaqingfapai"));
+    gtk_container_add(GTK_CONTAINER(box), label);
+
+    gtk_popover_set_position (GTK_POPOVER (popover), GTK_POS_LEFT);
+    gtk_container_add (GTK_CONTAINER (popover), box);
+    gtk_container_set_border_width (GTK_CONTAINER (popover), 6);
+    gtk_widget_show_all (popover);
+    gtk_popover_popup (GTK_POPOVER(popover));
+
+    return popover;
+}
 
 static void
 games_window_fill (GamesWindow *gameswin)
@@ -221,6 +240,9 @@ games_window_fill (GamesWindow *gameswin)
     GtkWidget *table;
     GtkWidget *label;
     GtkWidget *button;
+    GdkPixbuf *pb2;
+    GdkPixbuf *pb1;
+    GtkWidget *image;
 
     set_window_background (GTK_WIDGET (gameswin), gameswin->priv->height_size, gameswin->priv->width_size);
     games_window_set_hand_image (gameswin);
@@ -247,13 +269,23 @@ games_window_fill (GamesWindow *gameswin)
     gtk_box_pack_end (GTK_BOX (box), vbox, TRUE, TRUE, 0);
 
     table = gtk_grid_new ();
-    gtk_widget_show (table);
     gtk_box_pack_end (GTK_BOX (vbox), table, TRUE, FALSE, 6);
     gtk_grid_set_column_homogeneous (GTK_GRID (table), TRUE);
 
     label = gtk_label_new (NULL);
-    gtk_widget_show (label);
     gtk_grid_attach (GTK_GRID (table), label, 0, 0, 12, 2);
+
+    button = gtk_button_new_with_label (NULL);
+    gtk_widget_set_focus_on_click (button ,TRUE);
+    pb1 = gdk_pixbuf_new_from_file(TABLE"/jeton_table.png", NULL);
+    pb2 = gdk_pixbuf_scale_simple (pb1, 120, 155, GDK_INTERP_BILINEAR);
+    image = gtk_image_new_from_pixbuf(pb2);
+    gtk_button_set_image (GTK_BUTTON (button), image);
+    gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
+    gtk_widget_set_opacity (button, 0.85);
+    gameswin->priv->popover = set_button_tips (button);
+    gtk_grid_attach (GTK_GRID (table), button, 2, 3, 1, 1);
+    
     gtk_grid_attach (GTK_GRID (table), gameswin->priv->hand_image[0], 6, 3, 1, 1);
     gtk_grid_attach (GTK_GRID (table), gameswin->priv->hand_image[1], 5, 3, 2, 1);
     gtk_grid_attach (GTK_GRID (table), gameswin->priv->hand_image[2], 4, 3, 3, 1);
