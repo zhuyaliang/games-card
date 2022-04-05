@@ -13,6 +13,7 @@ struct _GamesPlayerPrivate
     GtkWidget  *label_action;
     GtkWidget  *image_face;
     GtkWidget  *label_message;
+    GtkWidget  *image;
 
     CardActionMode card_mode;
 };
@@ -39,6 +40,11 @@ games_player_fill (GamesPlayer *gp)
     gp->priv->label_info = gtk_label_new (_("Player A\r\njeton: 5000"));
     gtk_box_pack_start (GTK_BOX (gp), gp->priv->label_info, TRUE, TRUE, 6);
 
+    gp->priv->image = gtk_image_new ();
+    gtk_box_pack_start (GTK_BOX (gp), gp->priv->image, TRUE, TRUE, 6);
+    pb1 = gdk_pixbuf_new_from_file ("/usr/share/games-card/table/dealer_button.png", NULL);
+    pb2 = gdk_pixbuf_scale_simple (pb1, 40, 40, GDK_INTERP_BILINEAR);
+    gtk_image_set_from_pixbuf (GTK_IMAGE (gp->priv->image), pb2);
 
     gp->priv->label_message = gtk_label_new (_("yijing jia zhu"));
 }
